@@ -21,5 +21,5 @@ df.insert(0, "row_number", range(1, len(df) + 1))
 
 print(df.head())
 
-# write to a csv file for inspection
-df.to_csv("data/LMU_wide_survey_DE_selected.csv", index=False)
+# write to a tab delimited file
+df.to_csv("data/LMU_wide_survey_DE_selected.tab", sep="\t", index=False)
