@@ -11,6 +11,7 @@ TRANSLATABLE_COLUMNS = [
 
 DEFAULT_INPUT_PATH = "data/LMU_wide_survey_DE_selected_preprocessed.tab"
 DEFAULT_OUTPUT_PATH = "data/LMU_wide_survey_DE_selected_translated.tab"
+DEFAULT_NOTABLE_QUOTES_PATH = "data/LMU_wide_survey_DE_selected_notable_quotes.tab"
 DEFAULT_MAP_OUTPUT_PATH = "data/LMU_wide_survey_DE_selected_translation_map.tab"
 DEFAULT_CACHE_PATH = "data/translation_cache.json"
 DEFAULT_MODEL = "google:gemini-3.1-flash-lite-preview"
