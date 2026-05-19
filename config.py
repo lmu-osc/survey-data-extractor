@@ -7,3 +7,10 @@ TRANSLATABLE_COLUMNS = [
     "Q10_other_1", "Q10_other_2", "Q10_other_3",
     "Q11_other_1", "Q11_other_2", "Q11_other_3", "Q12_1", "Q12_2", "Q12_3", "Q12_4", "Q12_5"
 ]
+
+
+DEFAULT_INPUT_PATH = "data/LMU_wide_survey_DE_selected_preprocessed.tab"
+DEFAULT_OUTPUT_PATH = "data/LMU_wide_survey_DE_selected_translated.tab"
+DEFAULT_MAP_OUTPUT_PATH = "data/LMU_wide_survey_DE_selected_translation_map.tab"
+DEFAULT_CACHE_PATH = "data/translation_cache.json"
+DEFAULT_MODEL = "google:gemini-3.1-flash-lite-preview"
