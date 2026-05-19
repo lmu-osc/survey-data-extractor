@@ -4,9 +4,15 @@ This repository includes a script that translates configured text columns from G
 
 ## Quick Overview
 
+### Main Processing
+
 1. `select-vars.py` takes the original dataset, and removes all columns that are not the session_id or the target columns for translation
 2. `preprocessing.py` removes rows that are fully empty and rows that do not have *any* German text detected at all
 3. `translate_with_llm.py` is large, but in short, it sends the cells to an LLM API for translation, caches results, and closes by reconstructing the results into a data frame/file with the same structure as the input data.
+
+### Notable Quote Extraction
+
+1. `notable-quotes.py` uses the preprocessed data to then extract notable quotes from the free text responses (untranslated).
 
 ## Details
 
