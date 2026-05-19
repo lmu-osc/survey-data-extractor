@@ -34,7 +34,7 @@ def main() -> None:
     with open(INPUT_PATH, "r") as f:
         df = pd.read_csv(f, sep="\t")
 
-    text_columns = [col for col in df.columns if col != "row_number"]
+    text_columns = [col for col in df.columns if col != "session_id"]
     normalized_text = df[text_columns].apply(lambda col: col.map(normalize_text))
 
     non_empty_mask = normalized_text.apply(lambda row: any(row), axis=1)
