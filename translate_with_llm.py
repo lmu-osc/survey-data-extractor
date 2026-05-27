@@ -219,8 +219,7 @@ def main() -> None:
     map_output_path = Path(args.map_output_path)
     cache_path = Path(args.cache_path)
 
-    with input_path.open("r", encoding="utf-8") as f:
-        df = pd.read_csv(f, sep="\t")
+    df = pd.read_excel(input_path)
 
     if "session_id" not in df.columns:
         raise ValueError("Input file must contain a 'session_id' column.")
@@ -240,8 +239,8 @@ def main() -> None:
     if long_df.empty:
         output_path.parent.mkdir(parents=True, exist_ok=True)
         map_output_path.parent.mkdir(parents=True, exist_ok=True)
-        df.to_csv(output_path, sep="\t", index=False)
-        long_df.assign(translated_text="").to_csv(map_output_path, sep="\t", index=False)
+        df.to_excel(output_path, index=False)
+        long_df.assign(translated_text="").to_excel(map_output_path, index=False)
         print("No non-empty translatable cells found. Wrote pass-through outputs.")
         return
 
@@ -324,11 +323,11 @@ def main() -> None:
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     map_output_path.parent.mkdir(parents=True, exist_ok=True)
-    translated_df.to_csv(output_path, sep="\t", index=False)
+    translated_df.to_excel(output_path, index=False)
 
     long_df[
         ["cell_key", "session_id", "column_name", "source_text", "translated_text"]
-    ].to_csv(map_output_path, sep="\t", index=False)
+    ].to_excel(map_output_path, index=False)
 
     print(f"Wrote translated table: {output_path}")
     print(f"Wrote cell mapping table: {map_output_path}")

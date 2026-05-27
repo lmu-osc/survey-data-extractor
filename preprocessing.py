@@ -1,8 +1,8 @@
 import pandas as pd
 from langdetect import DetectorFactory, LangDetectException, detect
 
-INPUT_PATH = "data/LMU_wide_survey_DE_selected.tab"
-OUTPUT_PATH = "data/LMU_wide_survey_DE_selected_preprocessed.tab"
+INPUT_PATH = "data/LMU_wide_survey_DE_selected.xlsx"
+OUTPUT_PATH = "data/LMU_wide_survey_DE_selected_preprocessed.xlsx"
 
 # Make language detection deterministic across runs.
 DetectorFactory.seed = 0
@@ -31,8 +31,7 @@ def is_german_text(text: str) -> bool:
 
 
 def main() -> None:
-    with open(INPUT_PATH, "r") as f:
-        df = pd.read_csv(f, sep="\t")
+    df = pd.read_excel(INPUT_PATH)
 
     text_columns = [col for col in df.columns if col != "session_id"]
     normalized_text = df[text_columns].apply(lambda col: col.map(normalize_text))
@@ -46,7 +45,7 @@ def main() -> None:
     )
     df_german = df_non_empty.loc[german_mask].copy()
 
-    df_german.to_csv(OUTPUT_PATH, sep="\t", index=False)
+    df_german.to_excel(OUTPUT_PATH, index=False)
 
     print(f"Loaded rows: {len(df)}")
     print(f"Rows after removing empty rows: {len(df_non_empty)}")
