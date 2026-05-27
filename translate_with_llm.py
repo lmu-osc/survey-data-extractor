@@ -11,7 +11,13 @@ from pydantic import BaseModel
 from pydantic_ai import Agent
 from pydantic_ai.exceptions import ModelHTTPError
 
-from config import TRANSLATABLE_COLUMNS, DEFAULT_INPUT_PATH, DEFAULT_OUTPUT_PATH, DEFAULT_MAP_OUTPUT_PATH, DEFAULT_CACHE_PATH, DEFAULT_MODEL
+from config import (TRANSLATABLE_COLUMNS,
+                    DEFAULT_INPUT_PATH, 
+                    DEFAULT_OUTPUT_PATH, 
+                    DEFAULT_MAP_OUTPUT_PATH, 
+                    DEFAULT_CACHE_PATH,
+                    DEFAULT_MODEL, 
+                    PREPROCESSED_DATASET_PATH)
 
 
 
@@ -61,7 +67,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Translate selected TSV columns from German to English using an LLM."
     )
-    parser.add_argument("--input-path", default=DEFAULT_INPUT_PATH)
+    parser.add_argument("--input-path", default=PREPROCESSED_DATASET_PATH)
     parser.add_argument("--output-path", default=DEFAULT_OUTPUT_PATH)
     parser.add_argument("--map-output-path", default=DEFAULT_MAP_OUTPUT_PATH)
     parser.add_argument("--cache-path", default=DEFAULT_CACHE_PATH)

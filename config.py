@@ -10,7 +10,9 @@ TRANSLATABLE_COLUMNS = [
 
 
 DEFAULT_INPUT_PATH = "data/LMU_wide_survey_DE.xlsx"
-DEFAULT_OUTPUT_PATH = "data/LMU_wide_survey_DE_selected_translated.json"
+DATASET_SELECTED_VARIABLES_PATH = "data/LMU_wide_survey_DE_selected.xlsx"
+PREPROCESSED_DATASET_PATH = "data/LMU_wide_survey_DE_selected_preprocessed.xlsx"
+DEFAULT_OUTPUT_PATH = "data/LMU_wide_survey_DE_selected_translated.xlsx"
 DEFAULT_NOTABLE_QUOTES_PATH = "data/LMU_wide_survey_DE_selected_notable_quotes.xlsx"
 DEFAULT_MAP_OUTPUT_PATH = "data/LMU_wide_survey_DE_selected_translation_map.xlsx"
 DEFAULT_CACHE_PATH = "data/translation_cache.json"
