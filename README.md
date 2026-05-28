@@ -46,6 +46,8 @@ uv sync
 
 ### Set your API key
 
+This project uses Pydantic AI so, in principle, you can use any model providers which Pydantic routes to. I used Gemini so the instructions here are specific to Gemini/Google's API.
+
 For Gemini models:
 
 The script loads `.env` automatically, so you can keep the key in a local `.env` file as `GOOGLE_API_KEY=...`.
