@@ -57,12 +57,17 @@ export GOOGLE_API_KEY="your_api_key_here"
 ### Run translation
 
 ```bash
+# just use presets
+uv run translate_with_llm.py 
+
+# or specify arguments to customize e.g. model, batch size, file names, etc.
+# 
 uv run translate_with_llm.py \
-	--input-path data/LMU_wide_survey_DE_selected_preprocessed.tab \
-	--output-path data/LMU_wide_survey_DE_selected_translated.tab \
-	--map-output-path data/LMU_wide_survey_DE_selected_translation_map.tab \
+	--input-path data/LMU_wide_survey_DE_selected_preprocessed.xlsx \
+	--output-path data/LMU_wide_survey_DE_selected_translated.xlsx \
+	--map-output-path data/LMU_wide_survey_DE_selected_translation_map.xlsx \
 	--cache-path data/translation_cache.json \
-	--model google:gemini-2.0-flash \
+	--model google:gemini-3.1-flash-lite \
 	--batch-size 25
 ```
 
