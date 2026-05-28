@@ -61,7 +61,7 @@ export GOOGLE_API_KEY="your_api_key_here"
 uv run translate_with_llm.py 
 
 # or specify arguments to customize e.g. model, batch size, file names, etc.
-# 
+# the values below are equivalent to the presets
 uv run translate_with_llm.py \
 	--input-path data/LMU_wide_survey_DE_selected_preprocessed.xlsx \
 	--output-path data/LMU_wide_survey_DE_selected_translated.xlsx \
