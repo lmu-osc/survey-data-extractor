@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-import json
 import time
 from pathlib import Path
 
@@ -124,9 +123,9 @@ def extract_quote_info(agent: Agent, text: str) -> QuoteExtraction | None:
 
 
 def load_data(input_path: Path) -> pd.DataFrame:
-    """Load survey data from TSV file."""
+    """Load survey data from Excel file."""
     print(f"Loading data from {input_path}...")
-    df = pd.read_csv(input_path, sep="\t")
+    df = pd.read_excel(input_path)
     print(f"Loaded {len(df)} rows and {len(df.columns)} columns")
     return df
 
@@ -160,11 +159,6 @@ def setup_agent(model: str, fallback_models: str) -> Agent:
     )
 
 
-async def main():
-    args = parse_args()
-    input_path = Path(args.input_path)
-    output_path = Path(args.output_path)
-    
 def main():
     args = parse_args()
     input_path = Path(args.input_path)
@@ -211,32 +205,47 @@ def main():
             )
             notable_quotes.append(record)
     
-    # Save results
+    # Save results as Excel
     output_path.parent.mkdir(parents=True, exist_ok=True)
     
-    results = {
-        "metadata": {
-            "total_responses_analyzed": len(responses),
-            "notable_quotes_found": len(notable_quotes),
-            "positive": sum(1 for q in notable_quotes if q.sentiment == "positive"),
-            "negative": sum(1 for q in notable_quotes if q.sentiment == "negative"),
-            "neutral": sum(1 for q in notable_quotes if q.sentiment == "neutral"),
-            "themes": sorted(set(q.theme for q in notable_quotes if q.theme))
-        },
-        "quotes": [q.model_dump() for q in notable_quotes]
-    }
+    # Build quotes DataFrame
+    quotes_data = [
+        {
+            "session_id": q.session_id,
+            "column_name": q.column_name,
+            "original_text": q.original_text,
+            "sentiment": q.sentiment,
+            "theme": q.theme,
+            "why_notable": q.why_notable,
+        }
+        for q in notable_quotes
+    ]
+    df_quotes = pd.DataFrame(quotes_data)
     
-    with output_path.open("w", encoding="utf-8") as f:
-        json.dump(results, f, indent=2, ensure_ascii=False)
+    # Build metadata DataFrame
+    metadata_data = [
+        {"metric": "total_responses_analyzed", "value": len(responses)},
+        {"metric": "notable_quotes_found", "value": len(notable_quotes)},
+        {"metric": "positive", "value": sum(1 for q in notable_quotes if q.sentiment == "positive")},
+        {"metric": "negative", "value": sum(1 for q in notable_quotes if q.sentiment == "negative")},
+        {"metric": "neutral", "value": sum(1 for q in notable_quotes if q.sentiment == "neutral")},
+        {"metric": "themes", "value": ", ".join(sorted(set(q.theme for q in notable_quotes if q.theme)))},
+    ]
+    df_metadata = pd.DataFrame(metadata_data)
+    
+    # Write to Excel with two sheets
+    with pd.ExcelWriter(output_path, engine="openpyxl") as writer:
+        df_quotes.to_excel(writer, sheet_name="Quotes", index=False)
+        df_metadata.to_excel(writer, sheet_name="Metadata", index=False)
     
     print(f"\n✓ Results saved to {output_path}")
     print(f"\nSummary:")
-    print(f"  Total responses analyzed: {results['metadata']['total_responses_analyzed']}")
-    print(f"  Notable quotes found: {results['metadata']['notable_quotes_found']}")
-    print(f"  Positive: {results['metadata']['positive']}")
-    print(f"  Negative: {results['metadata']['negative']}")
-    print(f"  Neutral: {results['metadata']['neutral']}")
-    print(f"  Themes: {', '.join(results['metadata']['themes'])}")
+    print(f"  Total responses analyzed: {len(responses)}")
+    print(f"  Notable quotes found: {len(notable_quotes)}")
+    print(f"  Positive: {metadata_data[2]['value']}")
+    print(f"  Negative: {metadata_data[3]['value']}")
+    print(f"  Neutral: {metadata_data[4]['value']}")
+    print(f"  Themes: {metadata_data[5]['value']}")
 
 
 if __name__ == "__main__":
